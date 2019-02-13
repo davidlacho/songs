@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { selectSong } from '../actions';
+import SongDetail from './SongDetail';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class SongList extends Component {
@@ -32,8 +33,7 @@ class SongList extends Component {
             {songList}
           </div>
           <div className="column eight wide">
-            <h3>{selectedSong && selectedSong.song.title}</h3>
-            <h4>{selectedSong && selectedSong.song.duration}</h4>
+            <SongDetail />
           </div>
         </div>
       </div>
