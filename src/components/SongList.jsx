@@ -1,25 +1,48 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { selectSong } from '../actions';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class SongList extends Component {
   render() {
-    const { songs, dispatch } = this.props;
+    // eslint-disable-next-line no-shadow
+    const { songs, selectSong, selectedSong } = this.props;
     const songList = (
-      <ul>
-        {songs.map(({ title, duration }) => (<li key={title}>{`${title}, ${duration}`}</li>))}
-      </ul>
+      <div className="ui divided list">
+        {songs.map(song => (
+          <div className="item" key={song.title}>
+            <div className="right floated content">
+              <button className="ui button primary" type="submit" onClick={() => selectSong(song)}>
+                Select
+              </button>
+            </div>
+            <div className="content">
+              {`${song.title} | ${song.duration}`}
+            </div>
+          </div>
+        ))}
+      </div>
     );
 
     return (
-      <div>
-        {songList}
+      <div className="ui container grid">
+        <div className="ui row">
+          <div className="column eight wide">
+            {songList}
+          </div>
+          <div className="column eight wide">
+            <h3>{selectedSong && selectedSong.song.title}</h3>
+            <h4>{selectedSong && selectedSong.song.duration}</h4>
+          </div>
+        </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ songs }) => ({ songs });
+const mapStateToProps = ({ songs, selectedSong }) => ({ songs, selectedSong });
 
-export default connect(mapStateToProps)(SongList);
+export default connect(mapStateToProps, {
+  selectSong,
+})(SongList);
